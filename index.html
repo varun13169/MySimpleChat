@@ -85,8 +85,7 @@
                 
                 $messageForm.submit(function(e){
                     e.preventDefault();
-                    messageAndWho=[$message.val(), $username.val()]
-                    socket.emit('send message', messageAndWho);
+                    socket.emit('send message', $message.val());
                     $message.val('');
                 });
                 
@@ -102,7 +101,7 @@
                 });
                 
                 socket.on('new message', function(data){
-                    $chat.append('<div class="well">'+data.sender+'\n'+data.msg+'</div>');
+                    $chat.append('<div class="well"><strong>'+data.user+'</strong>:<br>'+data.msg+'</div>');
                 });
                 
                 socket.on('get users', function(data){

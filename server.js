@@ -39,7 +39,7 @@ io.sockets.on('connection', function(socket){
     
     
     socket.on('send message',function(data){
-        io.sockets.emit('new message', {msg: data[1], sender: data[0]} );
+        io.sockets.emit('new message', {msg: data, user:socket.username} );
     });
     
     socket.on('new user',function(data, callback){

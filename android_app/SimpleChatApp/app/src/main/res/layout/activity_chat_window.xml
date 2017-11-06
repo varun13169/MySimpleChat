@@ -10,7 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <android.support.v7.app.AlertController.RecycleListView
+        android:layout_below="@+id/tv_username"
+        android:layout_above="@+id/ll_send_message"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </android.support.v7.app.AlertController.RecycleListView>
+
     <LinearLayout
+        android:id="@+id/ll_send_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="22"
