@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         mLogin = (Button) findViewById(R.id.btn_login);
         mUsername = (EditText) findViewById(R.id.ev_username);
 
-        soc = new SocketInit("http://192.168.108.182:3000");
+        soc = new SocketInit("http://172.16.0.33:3000"); //"http://192.168.108.182:3000"
         soc.getmSocket().connect();
 
         mLogin.setOnClickListener(new View.OnClickListener() {

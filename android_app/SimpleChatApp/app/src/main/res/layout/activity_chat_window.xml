@@ -5,18 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.tftus.kumarvarun.simplechatapp.ChatWindow">
-    <TextView
-        android:id="@+id/tv_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-    <android.support.v7.app.AlertController.RecycleListView
-        android:layout_below="@+id/tv_username"
-        android:layout_above="@+id/ll_send_message"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
+    <!--<TextView-->
+        <!--android:id="@+id/tv_username"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="20sp"-->
+        <!--android:padding="5dp"-->
+        <!--android:text="username"/>-->
 
-    </android.support.v7.app.AlertController.RecycleListView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chat_messages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/ll_send_message">
+    </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:id="@+id/ll_send_message"
