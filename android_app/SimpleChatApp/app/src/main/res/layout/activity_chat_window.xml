@@ -16,11 +16,22 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_chat_messages"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="10dp"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/ll_send_message">
+        android:layout_above="@+id/ll_send_message"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/rv_online_users">
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_online_users"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:layout_alignTop="@+id/rv_chat_messages"
+        android:layout_alignBottom="@+id/rv_chat_messages"
+        android:layout_alignParentLeft="true">
+
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout

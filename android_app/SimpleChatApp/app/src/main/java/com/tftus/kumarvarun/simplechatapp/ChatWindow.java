@@ -23,8 +23,10 @@ import java.util.List;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.tftus.kumarvarun.simplechatapp.Adapter.ChatMessageAdapter;
+import com.tftus.kumarvarun.simplechatapp.Adapter.OnlineUsersAdapter;
 import com.tftus.kumarvarun.simplechatapp.Model.ChatMessage;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,11 +36,14 @@ public class ChatWindow extends AppCompatActivity implements View.OnClickListene
     EditText mMessage;
     Socket mSocket;
     ActionBar mActionbar;
-    private String mUser;
 
-    private RecyclerView mRecyclerView;
+    private static String mUser;
+
+    private RecyclerView mRecyclerView, mOnlineUsersRecyclerView;
     private ChatMessageAdapter mChatMessageAdapter;
+    private OnlineUsersAdapter mOnlineUsersAdapter;
     public static List<ChatMessage> chatMessages = new ArrayList<>();
+    public static List<String> mOnlineUsers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +62,47 @@ public class ChatWindow extends AppCompatActivity implements View.OnClickListene
         mSend.setOnClickListener(this);
 
         mChatMessageAdapter = new ChatMessageAdapter();
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_chat_messages);
+        mOnlineUsersAdapter = new OnlineUsersAdapter(mOnlineUsers);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        RecyclerView.LayoutManager mLayoutManagerChatMessages = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_chat_messages);
+        mRecyclerView.setLayoutManager(mLayoutManagerChatMessages);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mChatMessageAdapter);
 
+        RecyclerView.LayoutManager mLayoutManagerOnlineUsers = new LinearLayoutManager(getApplicationContext());
+        mOnlineUsersRecyclerView = (RecyclerView) findViewById(R.id.rv_online_users);
+        mOnlineUsersRecyclerView.setLayoutManager(mLayoutManagerOnlineUsers);
+        mOnlineUsersRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mOnlineUsersRecyclerView.setAdapter(mOnlineUsersAdapter);
+
+        setupEventListeners();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        int viewId = v.getId();
+        if(viewId == R.id.imbtn_send){
+            mSocket.emit("send message", mMessage.getText().toString());
+            mMessage.setText("");
+        }
+
+    }
+
+    public static String getmUser() {
+        return mUser;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mSocket.disconnect();
+        mSocket.off("new message");
+        finish();
+    }
+
+    private void setupEventListeners(){
         mSocket.on("new message", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -81,21 +120,28 @@ public class ChatWindow extends AppCompatActivity implements View.OnClickListene
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                String newMessage = (String) args[0];
-//                Toast.makeText(ChatWindow.this, newMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mSocket.on("get users", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONArray onlineUsersJson = (JSONArray) args[0];
+                //mOnlineUsers.clear();
+                for (int i = 0; i < onlineUsersJson.length(); i++) {
+                    try {
+                        mOnlineUsers.add(onlineUsersJson.getString(i) );
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mOnlineUsersAdapter.setList(mOnlineUsers);
+                    }
+                });
             }
         });
     }
-
-
-    @Override
-    public void onClick(View v) {
-        int viewId = v.getId();
-        if(viewId == R.id.imbtn_send){
-            mSocket.emit("send message", mMessage.getText().toString());
-            mMessage.setText("");
-        }
-
-    }
-
 }

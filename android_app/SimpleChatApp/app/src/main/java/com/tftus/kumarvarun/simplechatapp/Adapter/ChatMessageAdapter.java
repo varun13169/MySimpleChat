@@ -1,10 +1,13 @@
 package com.tftus.kumarvarun.simplechatapp.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tftus.kumarvarun.simplechatapp.ChatWindow;
@@ -41,8 +44,11 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     @Override
     public void onBindViewHolder(ChatMessgeViewHolder holder, int position) {
         ChatMessage message = mChatMessages.get(position);
-        holder.username.setText(message.getUsername());
+        holder.username.setText(message.getUsername()+":");
         holder.message.setText(message.getMessage());
+        if ( message.getUsername().equals(ChatWindow.getmUser()) ){
+            holder.chatMessageLayout.setBackgroundColor(Color.parseColor("#80CCCC00"));
+        }
     }
 
     @Override
@@ -52,11 +58,13 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
 
     public class ChatMessgeViewHolder extends RecyclerView.ViewHolder{
         public TextView username, message;
+        public LinearLayout chatMessageLayout;
 
         public ChatMessgeViewHolder(View itemView) {
             super(itemView);
             username = (TextView) itemView.findViewById(R.id.tv_message_username);
             message = (TextView) itemView.findViewById(R.id.tv_message_message);
+            chatMessageLayout = (LinearLayout) itemView.findViewById(R.id.ll_chat_message);
         }
     }
 }
