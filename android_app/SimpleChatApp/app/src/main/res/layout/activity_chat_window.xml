@@ -24,15 +24,41 @@
         android:layout_toRightOf="@+id/rv_online_users">
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/tv_online_user"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/rv_chat_messages"
+        android:text="Online \nUsers"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_online_users"
         android:layout_width="100dp"
         android:layout_height="0dp"
-        android:layout_alignTop="@+id/rv_chat_messages"
+        android:layout_below="@+id/tv_online_user"
         android:layout_alignBottom="@+id/rv_chat_messages"
         android:layout_alignParentLeft="true">
 
     </android.support.v7.widget.RecyclerView>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@android:color/black"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/ll_send_message"
+        android:layout_alignRight="@+id/rv_online_users"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/ll_send_message"/>
+
 
     <LinearLayout
         android:id="@+id/ll_send_message"

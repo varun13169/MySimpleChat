@@ -77,6 +77,11 @@ public class ChatWindow extends AppCompatActivity implements View.OnClickListene
         mOnlineUsersRecyclerView.setAdapter(mOnlineUsersAdapter);
 
         setupEventListeners();
+        getAllOnlineUsers();
+    }
+
+    private void getAllOnlineUsers() {
+        mSocket.emit("all online users");
     }
 
 
@@ -127,7 +132,7 @@ public class ChatWindow extends AppCompatActivity implements View.OnClickListene
             @Override
             public void call(Object... args) {
                 JSONArray onlineUsersJson = (JSONArray) args[0];
-                //mOnlineUsers.clear();
+                mOnlineUsers.clear();
                 for (int i = 0; i < onlineUsersJson.length(); i++) {
                     try {
                         mOnlineUsers.add(onlineUsersJson.getString(i) );

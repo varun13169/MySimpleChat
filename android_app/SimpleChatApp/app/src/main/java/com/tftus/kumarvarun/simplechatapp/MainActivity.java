@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private static SocketInit soc;
     private Button mLogin;
     private EditText mUsername;
+    private EditText mServerAddress;
     private Intent intent;
 
     public static SocketInit getSoc() {
@@ -28,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
 
         mLogin = (Button) findViewById(R.id.btn_login);
         mUsername = (EditText) findViewById(R.id.ev_username);
+        mServerAddress = (EditText) findViewById(R.id.ev_server_address);
 
-        soc = new SocketInit("http://172.16.0.33:3000"); //"http://192.168.108.182:3000"
+        soc = new SocketInit(mServerAddress.getText().toString());
         soc.getmSocket().connect();
+        //"http://192.168.108.182:3000" "http://172.16.0.33:3000"
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override

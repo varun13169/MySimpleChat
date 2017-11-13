@@ -50,6 +50,11 @@ io.sockets.on('connection', function(socket){
         updateUserNames();
     });
     
+    socket.on('all online users', function(data){
+        console.log('yup it is.........')
+        updateUserNames();
+    });
+    
     function updateUserNames(){
         io.sockets.emit('get users', users);
     }
